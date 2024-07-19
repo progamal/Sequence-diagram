@@ -1,0 +1,22 @@
+@startuml .
+
+actor User
+participant UI
+participant AuthController as "Auth Controller"
+participant Database
+participant GoogleAuthService as "Google Auth Service"
+
+title LOG IN/SIGN UP
+User -> UI: Open application
+User -> UI: Choose login/create account
+User -> UI: Enter email and password or choose Google authentication
+UI -> AuthController: Send credentials or Google auth request
+AuthController -> Database: Check account existence (for email/password)
+AuthController -> GoogleAuthService: Authenticate (for Google authentication)
+Database -> AuthController: Return account data (for email/password)
+GoogleAuthService -> AuthController: Return authentication result
+AuthController -> Database: Create new account (if creating account and email does not exist)
+AuthController -> UI: Send authentication result
+UI -> User: Display result (success or failure)
+
+@enduml
